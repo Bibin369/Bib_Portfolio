@@ -57,11 +57,11 @@ export default function About() {
            style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}
         >
            <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center' }}>
-             <h4 style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--accent-primary)' }}>5+</h4>
+             <h4 style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--accent-primary)' }}>1+</h4>
              <p style={{ color: 'var(--text-secondary)' }}>Years Experience</p>
            </div>
            <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center' }}>
-             <h4 style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>50+</h4>
+             <h4 style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--accent-secondary)' }}>15+</h4>
              <p style={{ color: 'var(--text-secondary)' }}>Projects Completed</p>
            </div>
            <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center', gridColumn: 'span 2' }}>
