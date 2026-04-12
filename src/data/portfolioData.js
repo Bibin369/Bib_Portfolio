@@ -4,7 +4,7 @@ export const portfolioData = {
     title: "Full Stack Developer",
     tagline: "Results-driven Full Stack Developer with expertise in Java, Python, and the MERN stack. Proficient in building scalable applications and API-driven solutions.",
     image: "/profile.jpeg", // This will load from public/profile.jpeg
-    resumeLink: "#",
+    resumeLink: "/Bibin's%20Resume.pdf",
   },
   about: {
     description: "I am a skilled Full Stack Developer with hands-on experience in IBM Integration Bus (IIB) and API-driven solutions. My technical journey is shaped by a deep passion for problem-solving and an eagerness to embrace new challenges. I'm adept at optimizing workflows and delivering impactful end-to-end solutions, and I constantly seek opportunities to contribute my technical expertise and drive innovation in a collaborative environment.",
