@@ -30,9 +30,11 @@ export default function Expertise() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                justifyContent: 'flex-start',
                 gap: '1rem',
                 borderTop: '3px solid transparent',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                height: '100%'
               }}
               whileHover={{ 
                 borderTopColor: 'var(--accent-primary)',
@@ -53,10 +55,10 @@ export default function Expertise() {
               }}>
                 <Icon size={32} />
               </div>
-              <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)' }}>
+              <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', minHeight: '3.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                 {item.area}
               </h3>
-              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6 }}>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, flexGrow: 1, display: 'flex', alignItems: 'flex-start' }}>
                 {item.description}
               </p>
             </motion.div>
