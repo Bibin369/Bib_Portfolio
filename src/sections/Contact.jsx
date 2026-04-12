@@ -1,23 +1,50 @@
 import React, { useState } from 'react';
 import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, Download } from 'lucide-react';
 
 export default function Contact() {
   const { contact, hero } = portfolioData;
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      alert("Message sent successfully!");
-      setFormData({ name: '', email: '', message: '' });
+    setSubmitStatus(null);
+    
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          // USER INSTRUCTION: Replace with your actual Web3Forms access key from https://web3forms.com/
+          access_key: "YOUR_ACCESS_KEY_HERE",
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        }),
+      });
+      
+      const result = await response.json();
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        // Clear success message after 5 seconds
+        setTimeout(() => setSubmitStatus(null), 5000);
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const handleChange = (e) => {
@@ -165,14 +192,36 @@ export default function Contact() {
               type="submit" 
               className="btn-primary" 
               disabled={isSubmitting}
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', opacity: isSubmitting ? 0.7 : 1 }}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', opacity: isSubmitting ? 0.7 : 1, transition: 'all 0.3s' }}
             >
-              {isSubmitting ? 'Sending...' : (
+              {isSubmitting ? (
+                <>
+                   <div style={{ width: '20px', height: '20px', border: '3px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                   Sending...
+                </>
+              ) : (
                 <>
                   <Send size={20} /> Send Message
                 </>
               )}
             </button>
+
+            <AnimatePresence>
+              {submitStatus === 'success' && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} style={{ color: '#4ade80', textAlign: 'center', padding: '0.5rem', background: 'rgba(74, 222, 128, 0.1)', borderRadius: '8px', border: '1px solid rgba(74, 222, 128, 0.2)' }}>
+                  Message sent successfully! I'll be in touch soon.
+                </motion.div>
+              )}
+              {submitStatus === 'error' && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} style={{ color: '#ef4444', textAlign: 'center', padding: '0.5rem', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
+                  Oops! Something went wrong. Please try again.
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <style>{`
+              @keyframes spin { 100% { transform: rotate(360deg); } }
+            `}</style>
           </form>
         </motion.div>
 
