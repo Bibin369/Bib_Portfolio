@@ -203,7 +203,7 @@ export default function CatchTheBug() {
                 </div>
 
                 <div style={{ textAlign: 'center', paddingLeft: '1rem', borderLeft: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)", display: "flex", alignItems: "center", gap: "0.2rem" }}><Trophy size={12}/> HIGH SCORE</span>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.2rem' }}><Trophy size={12}/> HIGH SCORE</span>
                   <div style={{ fontSize: '1.2rem', fontWeight: 700 }}>
                     {highScore}
                   </div>
