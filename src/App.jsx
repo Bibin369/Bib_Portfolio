@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -19,6 +19,11 @@ import Chatbot from './components/Chatbot';
 
 function App() {
   const location = useLocation();
+
+  // Scroll to top on every route change natively
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const pageTransition = {
     initial: { opacity: 0, y: 20 },
