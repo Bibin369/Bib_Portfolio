@@ -163,7 +163,8 @@ export const portfolioData = {
     "Class Representative during the Academic Year of MCA 2022-2023",
     "BCA Department Fest Magnus Student Coordinator",
     "Secretary, Matrix MCA Department Association",
-    "Recognized for contributions during NAAC Reaccreditation (2023), achieving A++ (3.71/4) institutional grade"
+    "Recognized for contributions during NAAC Reaccreditation (2023), achieving A++ (3.71/4) institutional grade",
+    "Organized and coordinated college-level activities, including fundraising initiatives and cultural events"
   ],
   interests: [
     "🏐 Playing Volleyball (School Team Player)",
