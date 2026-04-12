@@ -1,5 +1,6 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './sections/Hero';
@@ -17,31 +18,55 @@ import Contact from './sections/Contact';
 import Chatbot from './components/Chatbot';
 
 function App() {
+  const location = useLocation();
+
+  const pageTransition = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20 },
+    transition: { duration: 0.5, ease: "easeOut" }
+  };
+
   return (
     <>
       <Navbar />
-      <Routes>
-        <Route path="/" element={
-          <main>
-            <Hero />
-            <About />
-            <Experience />
-            <Education />
-            <Skills />
-            <Certifications />
-            <Projects />
-            <Expertise />
-            <ExtraCurricular />
-            <Interests />
-            <Contact />
-          </main>
-        } />
-        <Route path="/travel" element={
-          <main style={{ paddingTop: '60px', minHeight: '100vh' }}>
-            <Travel />
-          </main>
-        } />
-      </Routes>
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={
+            <motion.main
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageTransition}
+              transition={pageTransition.transition}
+            >
+              <Hero />
+              <About />
+              <Experience />
+              <Education />
+              <Skills />
+              <Certifications />
+              <Projects />
+              <Expertise />
+              <ExtraCurricular />
+              <Interests />
+              <Contact />
+            </motion.main>
+          } />
+          <Route path="/travel" element={
+            <motion.main 
+              style={{ paddingTop: '60px', minHeight: '100vh' }}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageTransition}
+              transition={pageTransition.transition}
+            >
+              <Travel />
+            </motion.main>
+          } />
+        </Routes>
+      </AnimatePresence>
       <Footer />
       <Chatbot />
     </>
