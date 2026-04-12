@@ -11,7 +11,7 @@ export default function Footer() {
       position: 'relative'
     }}>
       <p style={{ color: 'var(--text-secondary)' }}>
-        © {new Date().getFullYear()} John Doe. Built with React & Vite.
+        © {new Date().getFullYear()} Bibin Thomas
       </p>
       <button
         onClick={() => scroll.scrollToTop()}
