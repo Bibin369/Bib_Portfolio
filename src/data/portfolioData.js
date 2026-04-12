@@ -169,7 +169,7 @@ export const portfolioData = {
     "Represented school as a Volleyball Team Player"
   ],
   interests: [
-    "🏐 Playing Volleyball (School Team Player)",
+    "🏐 Playing Volleyball",
     "🏸 Playing Badminton & Football",
     "🎧 Listening to Music",
     "🎬 Watching Movies & Web Series",
