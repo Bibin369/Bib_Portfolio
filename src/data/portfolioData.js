@@ -146,7 +146,7 @@ export const portfolioData = {
     {
       title: "Sanitization Management System",
       description: "Built a web platform enabling sanitization service booking, scheduling, tracking, and streamlined data management for homes, offices, and commercial spaces.",
-      technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
+      technologies: ["HTML", "CSS", "JavaScript", "Python", "MySQL"],
       image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?q=80&w=1000&auto=format&fit=crop",
       liveDemo: "#",
       github: "#"
