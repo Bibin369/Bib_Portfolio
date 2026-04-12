@@ -145,7 +145,7 @@ export const portfolioData = {
     },
     {
       title: "Sanitization Management System",
-      description: "A web-based platform for booking and managing sanitization services for homes, offices, and commercial spaces. Simplifies scheduling, tracks service records, and eliminates manual data handling — built in response to rising hygiene awareness post-pandemic.",
+      description: "Built a web-based platform for booking and managing sanitization services, enabling easy scheduling, service tracking, and streamlined data handling in response to post-pandemic hygiene needs.",
       technologies: ["HTML", "CSS", "JavaScript", "PHP", "MySQL"],
       image: "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?q=80&w=1000&auto=format&fit=crop",
       liveDemo: "#",
