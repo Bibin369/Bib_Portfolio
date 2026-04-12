@@ -88,6 +88,9 @@ export default function Contact() {
           email: formData.email,
           message: formData.message,
           botcheck: formData.honeypot || false,
+          // Auto-reply to the user
+          autoresponse: true,
+          replyto: formData.email,
         }),
       });
       const result = await response.json();
@@ -303,8 +306,8 @@ export default function Contact() {
                 >
                   <CheckCircle size={20} style={{ flexShrink: 0, marginTop: '0.1rem' }} />
                   <div>
-                    <strong style={{ display: 'block', marginBottom: '0.25rem' }}>Message sent successfully!</strong>
-                    <span style={{ fontSize: '0.88rem', opacity: 0.85 }}>Thank you for reaching out — I'll get back to you within 24–48 hours.</span>
+                    <strong style={{ display: 'block', marginBottom: '0.25rem' }}>✅ Message sent successfully!</strong>
+                    <span style={{ fontSize: '0.88rem', opacity: 0.85 }}>Thank you for reaching out — you'll receive a confirmation email shortly. I'll reply within 24–48 hours.</span>
                   </div>
                 </motion.div>
               )}
