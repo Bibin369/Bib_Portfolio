@@ -16,6 +16,7 @@ import ExtraCurricular from './sections/ExtraCurricular';
 import Interests from './sections/Interests';
 import Contact from './sections/Contact';
 import Chatbot from './components/Chatbot';
+import StoryMode from './pages/StoryMode';
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,8 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  const isStoryMode = location.pathname === '/story';
 
   const pageTransition = {
     initial: { opacity: 0, y: 20 },
@@ -34,7 +37,7 @@ function App() {
 
   return (
     <>
-      <Navbar />
+      {!isStoryMode && <Navbar />}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={
@@ -70,10 +73,21 @@ function App() {
               <Travel />
             </motion.main>
           } />
+          <Route path="/story" element={
+            <motion.main
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              variants={pageTransition}
+              transition={pageTransition.transition}
+            >
+              <StoryMode />
+            </motion.main>
+          } />
         </Routes>
       </AnimatePresence>
-      <Footer />
-      <Chatbot />
+      {!isStoryMode && <Footer />}
+      {!isStoryMode && <Chatbot />}
     </>
   );
 }

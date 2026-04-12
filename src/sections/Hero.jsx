@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Download, Mail } from 'lucide-react';
+import { Download, Mail, PlayCircle } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { portfolioData } from '../data/portfolioData';
 
 export default function Hero() {
@@ -67,13 +68,17 @@ export default function Hero() {
           </motion.p>
           
           <motion.div variants={itemVariants} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
-            <a href={hero.resumeLink} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Link to="/story" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 0 20px var(--accent-glow)' }}>
+              <PlayCircle size={20} />
+              Explore My Journey
+            </Link>
+            <a href={hero.resumeLink} className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Download size={20} />
-              View Resume
+              Resume
             </a>
             <a href="#contact" className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Mail size={20} />
-              Contact Me
+              Contact
             </a>
           </motion.div>
 
