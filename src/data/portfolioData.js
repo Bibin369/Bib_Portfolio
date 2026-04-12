@@ -22,6 +22,18 @@ export const portfolioData = {
       degree: "Bachelor of Computer Applications",
       year: "2019 - 2022",
       highlights: []
+    },
+    {
+      institution: "Nair Samajam Higher Secondary School, Mannar",
+      degree: "Higher Secondary Education – Board of Higher Secondary Examinations, Kerala",
+      year: "2017 - 2019",
+      highlights: []
+    },
+    {
+      institution: "Bishop Moore Vidyapith, Mavelikara",
+      degree: "Secondary Education – Indian Certificate of Secondary Education",
+      year: "2017",
+      highlights: []
     }
   ],
   skills: {
