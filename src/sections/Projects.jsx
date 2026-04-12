@@ -2,8 +2,6 @@ import React from 'react';
 import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
-import { FaGithub } from 'react-icons/fa';
 
 export default function Projects() {
   const { projects } = portfolioData;
@@ -69,29 +67,6 @@ export default function Projects() {
                 ))}
               </div>
 
-              {/* Links */}
-              <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto' }}>
-                <a href={project.liveDemo} target="_blank" rel="noreferrer" style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: 'var(--text-primary)',
-                  fontWeight: 500,
-                  transition: 'color 0.2s'
-                }} className="hover-link">
-                  <ExternalLink size={18} /> Live Demo
-                </a>
-                <a href={project.github} target="_blank" rel="noreferrer" style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: 'var(--text-secondary)',
-                  fontWeight: 500,
-                  transition: 'color 0.2s'
-                }} className="hover-link">
-                  <FaGithub size={18} /> Source Code
-                </a>
-              </div>
             </div>
 
             <style>{`
