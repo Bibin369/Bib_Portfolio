@@ -2,7 +2,8 @@ import React, { useState, useRef } from 'react';
 import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, Download, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Download, AlertCircle, Loader } from 'lucide-react';
+import SuccessModal from '../components/SuccessModal';
 
 const inputStyle = {
   width: '100%',
@@ -33,7 +34,8 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', honeypot: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null); // 'success' | 'error' | null
+  const [submitStatus, setSubmitStatus] = useState(null); // 'error' | 'throttle' | null
+  const [showModal, setShowModal] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const lastSubmitTime = useRef(0);
 
@@ -92,11 +94,10 @@ export default function Contact() {
       });
       const result = await response.json();
       if (result.success) {
-        setSubmitStatus('success');
+        setShowModal(true);
         setHasSubmitted(true);
         lastSubmitTime.current = Date.now();
         setFormData({ name: '', email: '', message: '', honeypot: '' });
-        setTimeout(() => setSubmitStatus(null), 7000);
       } else {
         setSubmitStatus('error');
       }
@@ -286,28 +287,9 @@ export default function Contact() {
               )}
             </button>
 
-            {/* Status Banners */}
+            {/* Status Banners — error & throttle only */}
             <AnimatePresence>
-              {submitStatus === 'success' && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  style={{
-                    display: 'flex', alignItems: 'flex-start', gap: '0.75rem',
-                    color: '#4ade80', padding: '1rem 1.2rem',
-                    background: 'rgba(74,222,128,0.08)',
-                    borderRadius: '10px', border: '1px solid rgba(74,222,128,0.25)',
-                    lineHeight: 1.5,
-                  }}
-                >
-                  <CheckCircle size={20} style={{ flexShrink: 0, marginTop: '0.1rem' }} />
-                  <div>
-                    <strong style={{ display: 'block', marginBottom: '0.25rem' }}>Message sent successfully!</strong>
-                    <span style={{ fontSize: '0.88rem', opacity: 0.85 }}>Thank you for reaching out — I'll get back to you within 24–48 hours.</span>
-                  </div>
-                </motion.div>
-              )}
+
               {submitStatus === 'error' && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -347,6 +329,14 @@ export default function Contact() {
         </motion.div>
 
       </div>
+
+      {/* Premium Success Modal */}
+      <SuccessModal
+        isOpen={showModal}
+        senderName={formData.name || ''}
+        onClose={() => setShowModal(false)}
+        onReset={() => setFormData({ name: '', email: '', message: '', honeypot: '' })}
+      />
     </section>
   );
 }
