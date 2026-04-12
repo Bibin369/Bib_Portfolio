@@ -127,6 +127,16 @@ export default function SuccessModal({ isOpen, onClose, onReset, senderName }) {
           />
 
           {/* Modal card */}
+          {/* Modal wrapper — flex centering so Framer Motion doesn't fight CSS transform */}
+          <div style={{
+            position: 'fixed', inset: 0,
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+            padding: '1rem',
+          }}>
           <motion.div
             key="modal"
             role="dialog"
@@ -137,10 +147,7 @@ export default function SuccessModal({ isOpen, onClose, onReset, senderName }) {
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', stiffness: 320, damping: 28 }}
             style={{
-              position: 'fixed',
-              top: '50%', left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 9999,
+              pointerEvents: 'all',
               width: 'min(480px, 92vw)',
               background: 'var(--bg-secondary)',
               border: '1px solid var(--border-color)',
@@ -148,6 +155,7 @@ export default function SuccessModal({ isOpen, onClose, onReset, senderName }) {
               padding: '3rem 2.5rem 2.5rem',
               textAlign: 'center',
               boxShadow: '0 30px 80px rgba(0,0,0,0.5)',
+              position: 'relative',
             }}
           >
             {/* Close button */}
@@ -247,6 +255,7 @@ export default function SuccessModal({ isOpen, onClose, onReset, senderName }) {
               </button>
             </motion.div>
           </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
