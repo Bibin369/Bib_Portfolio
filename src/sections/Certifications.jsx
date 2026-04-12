@@ -42,12 +42,12 @@ export default function Certifications() {
 
             <Award size={32} color="var(--accent-primary)" style={{ marginBottom: '1rem' }} />
             
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '0.5rem', zIndex: 1 }}>
+            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-primary)', marginBottom: '1rem', zIndex: 1, display: 'flex', alignItems: 'flex-start', minHeight: '3rem' }}>
               {cert.title}
             </h3>
             
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', zIndex: 1 }}>
-              <span style={{ color: 'var(--accent-secondary)', fontWeight: 500, fontSize: '0.9rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem', zIndex: 1, gap: '1rem' }}>
+              <span style={{ color: 'var(--accent-secondary)', fontWeight: 500, fontSize: '0.9rem', wordWrap: 'break-word', flex: 1 }}>
                 {cert.issuer}
               </span>
               <span style={{ 
@@ -55,7 +55,9 @@ export default function Certifications() {
                 padding: '0.2rem 0.6rem', 
                 borderRadius: '4px', 
                 fontSize: '0.8rem',
-                color: 'var(--text-secondary)'
+                color: 'var(--text-secondary)',
+                whiteSpace: 'nowrap',
+                flexShrink: 0
               }}>
                 {cert.year}
               </span>
