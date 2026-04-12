@@ -50,20 +50,24 @@ export default function Education() {
             }}></div>
 
             <div className="glass-panel" style={{ padding: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem', marginBottom: '1rem' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{item.degree}</h3>
-                  <h4 style={{ fontSize: '1.1rem', color: 'var(--accent-primary)', fontWeight: 500 }}>{item.institution}</h4>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'nowrap', gap: '1rem', marginBottom: '1rem' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h3 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '0.5rem', wordWrap: 'break-word', lineHeight: 1.3 }}>{item.degree}</h3>
+                  <h4 style={{ fontSize: '1.1rem', color: 'var(--accent-primary)', fontWeight: 500, wordWrap: 'break-word' }}>{item.institution}</h4>
                 </div>
-                <span style={{
-                  background: 'var(--border-color)',
-                  padding: '0.25rem 1rem',
-                  borderRadius: '999px',
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)'
-                }}>
+                <div style={{ flexShrink: 0 }}>
+                  <span style={{
+                    background: 'var(--border-color)',
+                    padding: '0.25rem 1rem',
+                    borderRadius: '999px',
+                    fontSize: '0.875rem',
+                    color: 'var(--text-secondary)',
+                    whiteSpace: 'nowrap',
+                    display: 'inline-block'
+                  }}>
                   {item.year}
-                </span>
+                  </span>
+                </div>
               </div>
               
               <ul style={{ listStyleType: 'disc', paddingLeft: '1.5rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
