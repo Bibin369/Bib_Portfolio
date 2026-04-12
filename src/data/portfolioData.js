@@ -15,7 +15,7 @@ export const portfolioData = {
       institution: "Marian College Kuttikkanam Autonomous",
       degree: "Master of Computer Applications",
       year: "2022 - 2024",
-      highlights: ["CGPA: 8.43/10", "Mastered advanced application development and software engineering paradigms"]
+      highlights: []
     },
     {
       institution: "Yeldo Mar Baselios College, Kothamangalam",
@@ -150,7 +150,8 @@ export const portfolioData = {
     "Marian Golden Band Award 2023-2024 (S Grade) for outstanding academic achievement",
     "Class Representative during the Academic Year of MCA 2022-2023",
     "BCA Department Fest Magnus Student Coordinator",
-    "Secretary, Matrix MCA Department Association"
+    "Secretary, Matrix MCA Department Association",
+    "Recognized for contributions during NAAC Reaccreditation (2023), achieving A++ (3.71/4) institutional grade"
   ],
   interests: [
     "Traveling",
