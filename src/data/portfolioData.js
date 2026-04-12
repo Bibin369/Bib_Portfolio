@@ -166,9 +166,13 @@ export const portfolioData = {
     "Recognized for contributions during NAAC Reaccreditation (2023), achieving A++ (3.71/4) institutional grade"
   ],
   interests: [
-    "Traveling",
-    "Volleyball",
-    "Badminton"
+    "🏐 Playing Volleyball (School Team Player)",
+    "🏸 Playing Badminton & Football",
+    "🎧 Listening to Music",
+    "🎬 Watching Movies & Web Series",
+    "📸 Photography",
+    "💪 Fitness & Outdoor Activities",
+    "💻 Exploring New Technologies"
   ],
   travel: [
     { title: "Munnar", state: "Kerala", description: "Renowned for its endless rolling tea gardens, misty hills, and cool climate, Munnar feels like stepping into a green paradise. Perfect for scenic drives and peaceful nature walks.", image: "https://loremflickr.com/800/600/munnar,nature/all" },
