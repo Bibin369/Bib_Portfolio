@@ -21,7 +21,7 @@ export const portfolioData = {
       institution: "Yeldo Mar Baselios College, Kothamangalam",
       degree: "Bachelor of Computer Applications",
       year: "2019 - 2022",
-      highlights: ["CGPA: 7.18/10", "Built strong foundational knowledge in programming, databases, and computer systems"]
+      highlights: []
     }
   ],
   skills: {
