@@ -164,7 +164,9 @@ export const portfolioData = {
     "BCA Department Fest Magnus Student Coordinator",
     "Secretary, Matrix MCA Department Association",
     "Recognized for contributions during NAAC Reaccreditation (2023), achieving A++ (3.71/4) institutional grade",
-    "Organized and coordinated college-level activities, including fundraising initiatives and cultural events"
+    "Organized and coordinated college-level activities, including fundraising initiatives and cultural events",
+    "Served as a Cadet in the Student Police Cadet (SPC), Kerala (2017–2019)",
+    "Represented school as a Volleyball Team Player"
   ],
   interests: [
     "🏐 Playing Volleyball (School Team Player)",
