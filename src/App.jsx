@@ -17,6 +17,7 @@ import Interests from './sections/Interests';
 import Contact from './sections/Contact';
 import Chatbot from './components/Chatbot';
 import StoryMode from './pages/StoryMode';
+import CatchTheBug from './components/CatchTheBug';
 
 function App() {
   const location = useLocation();
@@ -88,6 +89,7 @@ function App() {
       </AnimatePresence>
       {!isStoryMode && <Footer />}
       {!isStoryMode && <Chatbot />}
+      {!isStoryMode && <CatchTheBug />}
     </>
   );
 }
