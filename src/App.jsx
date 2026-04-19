@@ -17,7 +17,7 @@ import Interests from './sections/Interests';
 import Contact from './sections/Contact';
 import Chatbot from './components/Chatbot';
 import StoryMode from './pages/StoryMode';
-import CatchTheBug from './components/CatchTheBug';
+import GameSection from './sections/GameSection';
 
 function App() {
   const location = useLocation();
@@ -60,6 +60,7 @@ function App() {
               <ExtraCurricular />
               <Interests />
               <Contact />
+              <GameSection />
             </motion.main>
           } />
           <Route path="/travel" element={
@@ -89,7 +90,6 @@ function App() {
       </AnimatePresence>
       {!isStoryMode && <Footer />}
       {!isStoryMode && <Chatbot />}
-      {!isStoryMode && <CatchTheBug />}
     </>
   );
 }
