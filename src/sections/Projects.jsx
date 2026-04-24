@@ -3,10 +3,11 @@ import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-const VISIBLE = 3;
+import useMediaQuery from '../hooks/useMediaQuery';
 
 export default function Projects() {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const VISIBLE = isMobile ? 1 : 3;
   const { projects } = portfolioData;
   const [startIndex, setStartIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
@@ -47,7 +48,7 @@ export default function Projects() {
           aria-label="Previous projects"
           style={{
             position: 'absolute',
-            left: '-1.5rem',
+            left: isMobile ? '0.5rem' : '-1.5rem',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 10,
@@ -147,7 +148,7 @@ export default function Projects() {
           aria-label="Next projects"
           style={{
             position: 'absolute',
-            right: '-1.5rem',
+            right: isMobile ? '0.5rem' : '-1.5rem',
             top: '50%',
             transform: 'translateY(-50%)',
             zIndex: 10,

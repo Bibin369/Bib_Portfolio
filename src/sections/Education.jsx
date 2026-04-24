@@ -2,9 +2,12 @@ import React from 'react';
 import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
 import { motion } from 'framer-motion';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 export default function Education() {
   const { education } = portfolioData;
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   return (
     <section id="education" className="section-container" style={{ paddingTop: '2rem' }}>
@@ -16,7 +19,7 @@ export default function Education() {
           position: 'absolute',
           top: 0,
           bottom: 0,
-          left: '20px',
+          left: isMobile ? '10px' : '20px',
           width: '2px',
           background: 'var(--border-color)',
           zIndex: 0
@@ -31,36 +34,43 @@ export default function Education() {
             transition={{ duration: 0.5, delay: index * 0.2 }}
             style={{
               position: 'relative',
-              paddingLeft: '60px',
-              marginBottom: '3rem',
+              paddingLeft: isMobile ? '35px' : '60px',
+              marginBottom: isMobile ? '2rem' : '3rem',
               zIndex: 1
             }}
           >
             {/* Timeline dot */}
             <div style={{
               position: 'absolute',
-              left: '11px',
+              left: isMobile ? '1px' : '11px',
               top: '5px',
-              width: '20px',
-              height: '20px',
+              width: isMobile ? '16px' : '20px',
+              height: isMobile ? '16px' : '20px',
               borderRadius: '50%',
               background: 'var(--bg-primary)',
               border: '4px solid var(--accent-primary)',
               boxShadow: '0 0 10px var(--accent-glow)'
             }}></div>
 
-            <div className="glass-panel" style={{ padding: '2rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'nowrap', gap: '1rem', marginBottom: '1rem' }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3 style={{ fontSize: '1.5rem', color: 'var(--text-primary)', marginBottom: '0.5rem', wordWrap: 'break-word', lineHeight: 1.3 }}>{item.degree}</h3>
-                  <h4 style={{ fontSize: '1.1rem', color: 'var(--accent-primary)', fontWeight: 500, wordWrap: 'break-word' }}>{item.institution}</h4>
+            <div className="glass-panel" style={{ padding: isMobile ? '1.25rem' : '2rem' }}>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'flex-start', 
+                flexWrap: 'wrap', 
+                gap: '0.5rem', 
+                marginBottom: '1rem' 
+              }}>
+                <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+                  <h3 style={{ fontSize: isMobile ? '1.15rem' : '1.5rem', color: 'var(--text-primary)', marginBottom: '0.3rem', wordWrap: 'break-word', lineHeight: 1.3 }}>{item.degree}</h3>
+                  <h4 style={{ fontSize: isMobile ? '0.95rem' : '1.1rem', color: 'var(--accent-primary)', fontWeight: 500, wordWrap: 'break-word' }}>{item.institution}</h4>
                 </div>
                 <div style={{ flexShrink: 0 }}>
                   <span style={{
                     background: 'var(--border-color)',
-                    padding: '0.25rem 1rem',
+                    padding: '0.2rem 0.75rem',
                     borderRadius: '999px',
-                    fontSize: '0.875rem',
+                    fontSize: isMobile ? '0.75rem' : '0.875rem',
                     color: 'var(--text-secondary)',
                     whiteSpace: 'nowrap',
                     display: 'inline-block'
