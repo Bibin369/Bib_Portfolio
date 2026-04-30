@@ -80,7 +80,7 @@ export default function Experience() {
                     {job.company}
                   </h4>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.4rem' }}>
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
