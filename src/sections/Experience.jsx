@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
 import { motion } from 'framer-motion';
-import { Briefcase } from 'lucide-react';
+import { Briefcase, Clock } from 'lucide-react';
+
+function calcDuration(durationStr) {
+  if (!durationStr.toLowerCase().includes('present')) return null;
+  // Parse start date from format "MM/YYYY - Present"
+  const startPart = durationStr.split('-')[0].trim();
+  const [month, year] = startPart.split('/').map(Number);
+  const start = new Date(year, month - 1, 1);
+  const now = new Date();
+  let totalMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+  if (totalMonths < 0) totalMonths = 0;
+  const yrs = Math.floor(totalMonths / 12);
+  const mos = totalMonths % 12;
+  if (yrs === 0) return `${mos} mo${mos !== 1 ? 's' : ''}`;
+  return `${yrs} yr${yrs !== 1 ? 's' : ''} ${mos} mo${mos !== 1 ? 's' : ''}`;
+}
 
 export default function Experience() {
   const { experience } = portfolioData;
@@ -65,16 +80,31 @@ export default function Experience() {
                     {job.company}
                   </h4>
                 </div>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  background: 'var(--border-color)',
-                  padding: '0.25rem 1rem',
-                  borderRadius: '999px',
-                  fontSize: '0.875rem',
-                  color: 'var(--text-secondary)'
-                }}>
-                  {job.duration}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.4rem' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    background: 'var(--border-color)',
+                    padding: '0.25rem 1rem',
+                    borderRadius: '999px',
+                    fontSize: '0.875rem',
+                    color: 'var(--text-secondary)'
+                  }}>
+                    {job.duration}
+                  </div>
+                  {calcDuration(job.duration) && (
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.3rem',
+                      fontSize: '0.8rem',
+                      color: 'var(--accent-primary)',
+                      fontWeight: 600,
+                    }}>
+                      <Clock size={13} />
+                      {calcDuration(job.duration)}
+                    </div>
+                  )}
                 </div>
               </div>
               
