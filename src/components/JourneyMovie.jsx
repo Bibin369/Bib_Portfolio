@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Play, Pause, Maximize2, Minimize2, Volume2, VolumeX } from 'lucide-react';
 
-const VIDEO_SRC = '/journey-video.mp4';
+const VIDEO_SRC = '/journey.mp4.mp4';
 
 export default function JourneyMovie({ isOpen, onClose }) {
   const videoRef = useRef(null);
