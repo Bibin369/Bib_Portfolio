@@ -121,14 +121,6 @@ export default function Skills() {
                   }}>
                     {cat.title}
                   </h3>
-                  <span style={{
-                    fontSize: '0.75rem',
-                    color: cat.accent,
-                    fontWeight: 600,
-                    letterSpacing: '0.03em',
-                  }}>
-                    {items.length} {items.length === 1 ? 'skill' : 'skills'}
-                  </span>
                 </div>
               </div>
 
@@ -181,32 +173,7 @@ export default function Skills() {
         })}
       </div>
 
-      {/* ── Total skills counter ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.5, duration: 0.6 }}
-        style={{
-          textAlign: 'center',
-          marginTop: '2.5rem',
-          color: 'var(--text-secondary)',
-          fontSize: '0.85rem',
-        }}
-      >
-        <span style={{
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border-color)',
-          borderRadius: '999px',
-          padding: '0.45rem 1.25rem',
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '0.4rem',
-        }}>
-          <Cpu size={14} color="var(--accent-primary)" />
-          {Object.values(skills).flat().length} skills across {CATEGORIES.length} domains
-        </span>
-      </motion.div>
+
     </section>
   );
 }
