@@ -20,9 +20,16 @@ export default function JourneyMovie({ isOpen, onClose }) {
   // Reset on open/close
   useEffect(() => {
     if (isOpen) {
-      setPlaying(false); setProgress(0); setCurrent(0); setShowControls(true); setLoaded(false);
+      setProgress(0); setCurrent(0); setShowControls(true); setLoaded(false);
+      // Auto-play after mount
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.play().then(() => setPlaying(true)).catch(() => {});
+        }
+      }, 300);
     } else {
       if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
+      setPlaying(false);
     }
   }, [isOpen]);
 
