@@ -8,7 +8,7 @@ export default function JourneyMovie({ isOpen, onClose }) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true);
+  const [muted, setMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrent] = useState(0);
@@ -25,7 +25,7 @@ export default function JourneyMovie({ isOpen, onClose }) {
       // Auto-play muted (browsers require muted for autoplay)
       setTimeout(() => {
         if (videoRef.current) {
-          videoRef.current.muted = true;
+          videoRef.current.muted = false;
           videoRef.current.play().then(() => setPlaying(true)).catch(() => {});
         }
       }, 500);
