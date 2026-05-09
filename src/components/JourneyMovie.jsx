@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Play, Pause, Maximize2, Minimize2 } from 'lucide-react';
+import { X, Play, Pause, Maximize2, Minimize2, Volume2, VolumeX } from 'lucide-react';
 
 const VIDEO_SRC = '/journey.mp4';
 
