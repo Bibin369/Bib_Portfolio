@@ -56,7 +56,8 @@ export const portfolioData = {
     ],
     toolsPlatforms: [
       "Git", "GitHub", "Jira", "Postman", "DBeaver", "SoapUI",
-      "AWS", "Redux", "Scikit-learn", "IBM IIB Toolkit"
+      "AWS", "Redux", "Scikit-learn", "IBM IIB Toolkit",
+      "VS Code", "Eclipse", "PyCharm"
     ],
     softSkills: [
       "Problem Solving", "Communication", "Team Collaboration", "Leadership",
