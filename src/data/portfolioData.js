@@ -65,6 +65,24 @@ export const portfolioData = {
   },
   certifications: [
     {
+      title: "Claude 101",
+      issuer: "Anthropic",
+      year: "Recent",
+      description: "Comprehensive training in Anthropic’s Claude AI ecosystem, covering conversational AI capabilities, prompt optimization, and practical AI-assisted productivity workflows."
+    },
+    {
+      title: "Introduction to Agent Skills",
+      issuer: "Anthropic",
+      year: "Recent",
+      description: "Comprehensive training in AI agent fundamentals, task automation workflows, reasoning patterns, and intelligent problem-solving techniques using modern AI systems."
+    },
+    {
+      title: "AI Fluency Framework & Foundations",
+      issuer: "Anthropic",
+      year: "Recent",
+      description: "Comprehensive training in artificial intelligence fundamentals, AI-driven workflows, prompt engineering concepts, and effective human-AI collaboration practices."
+    },
+    {
       title: "Java Spring Full Stack Development",
       issuer: "Luminar Technolab",
       year: "Recent",
