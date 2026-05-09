@@ -37,17 +37,30 @@ export const portfolioData = {
     }
   ],
   skills: {
-    technical: [
-      "Java", "Python (Django)", "JavaScript", "React.js", "Node.js", 
-      "HTML/CSS", "Bootstrap", "Material-UI", "REST API", "Machine Learning (Scikit Learn)",
-      "IBM Integration Bus (IIB)"
+    technicalSkills: [
+      "Full Stack Development", "MERN Stack Development", "IBM Integration Bus (IIB)",
+      "REST API Development", "API Integration", "SDLC", "Agile Development",
+      "Cloud Computing", "Machine Learning Fundamentals"
     ],
-    tools: [
-      "Git & GitHub", "JIRA", "AWS", "MySQL", "MongoDB", "SQLite", "PostgreSQL", 
-      "IIB Toolkit", "ESQL", "DBeaver", "SoapUI"
+    programmingLanguages: [
+      "Java", "Python", "JavaScript", "ESQL", "SQL"
     ],
-    soft: [
-      "Problem Solving", "Team Collaboration", "Adaptability", "Leadership", "Communication"
+    frontend: [
+      "React.js", "HTML5", "CSS3", "Bootstrap", "Material UI"
+    ],
+    backend: [
+      "Node.js", "Django", "Spring Boot"
+    ],
+    databases: [
+      "MySQL", "PostgreSQL", "MongoDB", "SQLite"
+    ],
+    toolsPlatforms: [
+      "Git", "GitHub", "Jira", "Postman", "DBeaver", "SoapUI",
+      "AWS", "Redux", "Scikit-learn", "IBM IIB Toolkit"
+    ],
+    softSkills: [
+      "Problem Solving", "Communication", "Team Collaboration", "Leadership",
+      "Adaptability", "Analytical Thinking", "Quick Learning", "Time Management"
     ]
   },
   certifications: [
