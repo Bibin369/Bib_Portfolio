@@ -18,7 +18,6 @@ import Contact from './sections/Contact';
 import Chatbot from './components/Chatbot';
 import StoryMode from './pages/StoryMode';
 import GameSection from './sections/GameSection';
-import VideoShowcase from './sections/VideoShowcase';
 
 function App() {
   const location = useLocation();
@@ -61,7 +60,6 @@ function App() {
               <ExtraCurricular />
               <Interests />
               <Contact />
-              <VideoShowcase />
               <GameSection />
             </motion.main>
           } />

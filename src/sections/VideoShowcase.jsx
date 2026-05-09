@@ -250,7 +250,7 @@ function Scene({ scene, active }) {
 }
 
 /* ── Main Section ── */
-export default function VideoShowcase() {
+export default function VideoShowcase({ embedded = false }) {
   const scenes = useRef(buildScenes()).current;
   const [current, setCurrent] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -317,8 +317,9 @@ export default function VideoShowcase() {
   const progress = ((current + 1) / scenes.length) * 100;
 
   return (
-    <section style={{ padding: isMobile ? '3rem 1rem' : '5rem 2rem' }}>
-      {/* Heading */}
+    <section style={{ padding: embedded ? '0' : (isMobile ? '3rem 1rem' : '5rem 2rem') }}>
+      {/* Heading — hidden when embedded */}
+      {!embedded && (
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -337,6 +338,7 @@ export default function VideoShowcase() {
           A cinematic glimpse into my story — from code to community.
         </p>
       </motion.div>
+      )}
 
       {/* Player */}
       <motion.div

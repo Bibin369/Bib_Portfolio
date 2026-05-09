@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Mail, PlayCircle } from 'lucide-react';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import { portfolioData } from '../data/portfolioData';
+import JourneyHub from '../components/JourneyHub';
 
 export default function Hero() {
   const { hero, contact } = portfolioData;
+  const [showHub, setShowHub] = useState(false);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -26,6 +27,7 @@ export default function Hero() {
   };
 
   return (
+    <>
     <section 
       id="hero" 
       className="section-container" 
@@ -68,10 +70,10 @@ export default function Hero() {
           </motion.p>
           
           <motion.div variants={itemVariants} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
-            <Link to="/story" className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 0 20px var(--accent-glow)' }}>
+            <button onClick={() => setShowHub(true)} className="btn-primary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 0 20px var(--accent-glow)', cursor: 'pointer' }}>
               <PlayCircle size={20} />
               Explore My Journey
-            </Link>
+            </button>
             <a href={hero.resumeLink} className="btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Download size={20} />
               Resume
@@ -141,5 +143,8 @@ export default function Hero() {
         }
       `}</style>
     </section>
+
+      <JourneyHub isOpen={showHub} onClose={() => setShowHub(false)} />
+    </>
   );
 }
