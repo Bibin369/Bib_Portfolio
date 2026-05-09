@@ -7,7 +7,6 @@ import useMediaQuery from '../hooks/useMediaQuery';
 
 export default function Certifications() {
   const isMobile = useMediaQuery('(max-width: 480px)');
-  const isTablet = useMediaQuery('(max-width: 768px)');
   const { certifications } = portfolioData;
 
   if (!certifications || certifications.length === 0) return null;

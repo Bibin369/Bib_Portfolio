@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import SectionHeading from '../components/SectionHeading';
 import { portfolioData } from '../data/portfolioData';
 import { motion } from 'framer-motion';
