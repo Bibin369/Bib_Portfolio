@@ -67,6 +67,7 @@ export default function About() {
            <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center', gridColumn: 'span 2' }}>
              <h4 style={{ fontSize: '3rem', fontWeight: 800, color: 'var(--accent-primary)' }}>4+</h4>
              <p style={{ color: 'var(--text-secondary)' }}>Domains Explored</p>
+             <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginTop: '0.5rem', opacity: 0.7 }}>Full Stack · IIB · Machine Learning · Cloud</p>
            </div>
         </motion.div>
 
