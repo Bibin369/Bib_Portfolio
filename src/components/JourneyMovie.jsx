@@ -8,25 +8,27 @@ export default function JourneyMovie({ isOpen, onClose }) {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(false);
+  const [muted, setMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrent] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isFs, setIsFs] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [error, setError] = useState(false);
   const hideTimer = useRef(null);
 
   // Reset on open/close
   useEffect(() => {
     if (isOpen) {
-      setProgress(0); setCurrent(0); setShowControls(true); setLoaded(false);
-      // Auto-play after mount
+      setProgress(0); setCurrent(0); setShowControls(true); setLoaded(false); setError(false);
+      // Auto-play muted (browsers require muted for autoplay)
       setTimeout(() => {
         if (videoRef.current) {
+          videoRef.current.muted = true;
           videoRef.current.play().then(() => setPlaying(true)).catch(() => {});
         }
-      }, 300);
+      }, 500);
     } else {
       if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
       setPlaying(false);
@@ -140,15 +142,47 @@ export default function JourneyMovie({ isOpen, onClose }) {
         <video
           ref={videoRef}
           src={VIDEO_SRC}
+          muted={muted}
           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
           onLoadedMetadata={() => { setDuration(videoRef.current.duration); setLoaded(true); }}
           onTimeUpdate={onTimeUpdate}
           onEnded={() => { setPlaying(false); setShowControls(true); }}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
+          onError={() => setError(true)}
           playsInline
           preload="auto"
         />
+
+        {/* Loading spinner */}
+        {!loaded && !error && (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex',
+            flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 5,
+          }}>
+            <div style={{
+              width: 40, height: 40, border: '3px solid rgba(255,255,255,0.1)',
+              borderTop: '3px solid #8b5cf6', borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+            }} />
+            <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 16, fontSize: 14 }}>Loading video...</p>
+          </div>
+        )}
+
+        {/* Error state */}
+        {error && (
+          <div style={{
+            position: 'absolute', inset: 0, display: 'flex',
+            flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 5,
+          }}>
+            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, marginBottom: 12 }}>Unable to load video</p>
+            <button onClick={() => { setError(false); setLoaded(false); if(videoRef.current) videoRef.current.load(); }} style={{
+              ...btnStyle, width: 'auto', padding: '0.5rem 1.25rem', borderRadius: 10,
+            }}>Retry</button>
+          </div>
+        )}
+
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 
         {/* Center play button (when paused) */}
         {!playing && loaded && (
