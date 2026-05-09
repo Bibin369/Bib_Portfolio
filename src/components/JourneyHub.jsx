@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { X, Film, Clapperboard, ArrowRight, Sparkles } from 'lucide-react';
-import VideoShowcase from '../sections/VideoShowcase';
+import JourneyMovie from './JourneyMovie';
 import useMediaQuery from '../hooks/useMediaQuery';
 
 export default function JourneyHub({ isOpen, onClose }) {
-  const [activeView, setActiveView] = useState(null); // null = hub, 'video' = video player
+  const [activeView, setActiveView] = useState(null); // null = hub, 'video' = movie
+  const [movieOpen, setMovieOpen] = useState(false);
   const navigate = useNavigate();
   const isMobile = useMediaQuery('(max-width: 640px)');
 
@@ -44,7 +45,7 @@ export default function JourneyHub({ isOpen, onClose }) {
       description: 'A motion-graphics reel highlighting my technical skills, projects, achievements, and extra-curricular leadership — all in one cinematic trailer.',
       accent: '#6366f1',
       tags: ['Animated', 'Auto-Play', 'Developer Reel'],
-      action: () => setActiveView('video'),
+      action: () => { onClose(); setMovieOpen(true); },
     },
   ];
 
@@ -233,22 +234,10 @@ export default function JourneyHub({ isOpen, onClose }) {
               </motion.div>
             )}
 
-            {/* ── Video View ── */}
-            {activeView === 'video' && (
-              <motion.div
-                key="video"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                style={{ width: '100%', maxWidth: '1000px' }}
-              >
-                <VideoShowcase embedded />
-              </motion.div>
-            )}
           </AnimatePresence>
         </motion.div>
       )}
+      <JourneyMovie isOpen={movieOpen} onClose={() => setMovieOpen(false)} />
     </AnimatePresence>
   );
 }
