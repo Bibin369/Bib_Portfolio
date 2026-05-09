@@ -1,46 +1,42 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Play, Pause } from 'lucide-react';
-import { SCENES } from '../utils/scenes';
+import { X, Play, Pause, Maximize2, Minimize2, Volume2, VolumeX } from 'lucide-react';
+
+const VIDEO_SRC = '/journey-video.mp4';
 
 export default function JourneyMovie({ isOpen, onClose }) {
-  const canvasRef = useRef(null);
-  const frameRef = useRef(null);
-  const startRef = useRef(null);
+  const videoRef = useRef(null);
+  const containerRef = useRef(null);
   const [playing, setPlaying] = useState(false);
-  const [sceneIdx, setSceneIdx] = useState(0);
-  const [sceneStart, setSceneStart] = useState(0);
+  const [muted, setMuted] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrent] = useState(0);
   const [showControls, setShowControls] = useState(true);
-  const [fade, setFade] = useState(1); // 1=black, 0=clear
+  const [isFs, setIsFs] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const hideTimer = useRef(null);
-  const playRef = useRef(false);
-
-  const totalDur = SCENES.reduce((s,sc)=>s+sc.dur,0);
 
   // Reset on open/close
   useEffect(() => {
     if (isOpen) {
-      setSceneIdx(0); setSceneStart(0); setPlaying(false);
-      startRef.current = null; setFade(1); playRef.current = false;
+      setPlaying(false); setProgress(0); setCurrent(0); setShowControls(true); setLoaded(false);
     } else {
-      cancelAnimationFrame(frameRef.current);
-      playRef.current = false;
+      if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; }
     }
   }, [isOpen]);
 
-  // Fullscreen
+  // Lock body scroll
   useEffect(() => {
-    if (!isOpen) return;
-    const el = document.documentElement;
-    el.requestFullscreen?.().catch(()=>{});
-    return () => { document.exitFullscreen?.().catch(()=>{}); };
+    if (isOpen) document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
   // Auto-hide controls
   const showCtrl = useCallback(() => {
     setShowControls(true);
     clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => { if(playRef.current) setShowControls(false); }, 3000);
+    hideTimer.current = setTimeout(() => { if (videoRef.current && !videoRef.current.paused) setShowControls(false); }, 3000);
   }, []);
 
   useEffect(() => {
@@ -55,112 +51,65 @@ export default function JourneyMovie({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e) => {
-      if (e.key === 'Escape') { handleClose(); }
+      if (e.key === 'Escape') handleClose();
       if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+      if (e.key === 'm' || e.key === 'M') toggleMute();
+      if (e.key === 'f' || e.key === 'F') toggleFs();
+      if (e.key === 'ArrowRight' && videoRef.current) videoRef.current.currentTime += 5;
+      if (e.key === 'ArrowLeft' && videoRef.current) videoRef.current.currentTime -= 5;
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [isOpen, playing]);
 
   const handleClose = () => {
-    setPlaying(false); playRef.current = false;
-    cancelAnimationFrame(frameRef.current);
+    if (videoRef.current) videoRef.current.pause();
+    if (document.fullscreenElement) document.exitFullscreen?.();
+    setPlaying(false);
     onClose();
   };
 
   const togglePlay = () => {
-    if (playing) {
-      setPlaying(false); playRef.current = false;
-    } else {
-      startRef.current = null;
-      setPlaying(true); playRef.current = true;
-      setFade(0);
-      showCtrl();
-    }
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) { videoRef.current.play(); setPlaying(true); showCtrl(); }
+    else { videoRef.current.pause(); setPlaying(false); setShowControls(true); }
   };
 
-  // Main render loop
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setMuted(videoRef.current.muted);
+  };
+
+  const toggleFs = () => {
+    if (!containerRef.current) return;
+    if (!document.fullscreenElement) containerRef.current.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  };
+
   useEffect(() => {
-    if (!isOpen || !playing) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const onChange = () => setIsFs(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onChange);
+    return () => document.removeEventListener('fullscreenchange', onChange);
+  }, []);
 
-    const loop = (timestamp) => {
-      if (!playRef.current) return;
-      if (!startRef.current) startRef.current = timestamp - sceneStart;
-      const elapsed = timestamp - startRef.current;
+  const onTimeUpdate = () => {
+    if (!videoRef.current) return;
+    setCurrent(videoRef.current.currentTime);
+    setProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+  };
 
-      // Resize canvas
-      const dpr = window.devicePixelRatio || 1;
-      const w = window.innerWidth, h = window.innerHeight;
-      if (canvas.width !== w*dpr || canvas.height !== h*dpr) {
-        canvas.width = w*dpr; canvas.height = h*dpr;
-        canvas.style.width = w+'px'; canvas.style.height = h+'px';
-        ctx.scale(dpr, dpr);
-      }
-
-      // Find current scene
-      let acc = 0, si = 0;
-      for (let i = 0; i < SCENES.length; i++) {
-        if (elapsed < acc + SCENES[i].dur) { si = i; break; }
-        acc += SCENES[i].dur;
-        if (i === SCENES.length - 1) { si = i; }
-      }
-
-      // End check
-      if (elapsed >= totalDur) {
-        setPlaying(false); playRef.current = false;
-        setFade(1);
-        return;
-      }
-
-      if (si !== sceneIdx) setSceneIdx(si);
-
-      const scene = SCENES[si];
-      const sceneElapsed = elapsed - acc;
-      const progress = Math.min(sceneElapsed / scene.dur, 1);
-
-      // Clear
-      ctx.clearRect(0, 0, w, h);
-
-      // Draw scene
-      scene.draw(ctx, w, h, elapsed, progress);
-
-      // Scene transition fade (first/last 0.4s of each scene)
-      const fadeIn = Math.min(sceneElapsed / 400, 1);
-      const fadeOut = Math.min((scene.dur - sceneElapsed) / 400, 1);
-      const sceneFade = 1 - Math.min(fadeIn, fadeOut);
-      if (sceneFade > 0) {
-        ctx.fillStyle = `rgba(0,0,0,${sceneFade})`;
-        ctx.fillRect(0, 0, w, h);
-      }
-
-      frameRef.current = requestAnimationFrame(loop);
-    };
-
-    frameRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(frameRef.current);
-  }, [isOpen, playing, sceneIdx, totalDur]);
-
-  // Calculate overall progress for timeline
-  let elapsed = 0;
-  for (let i = 0; i < sceneIdx; i++) elapsed += SCENES[i].dur;
-  const overallProgress = (elapsed / totalDur) * 100;
-
-  const handleTimelineClick = (e) => {
+  const onSeek = (e) => {
+    if (!videoRef.current) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    const pct = (e.clientX - rect.left) / rect.width;
-    let target = pct * totalDur, acc = 0;
-    for (let i = 0; i < SCENES.length; i++) {
-      if (target < acc + SCENES[i].dur) {
-        setSceneIdx(i);
-        setSceneStart(target);
-        startRef.current = null;
-        break;
-      }
-      acc += SCENES[i].dur;
-    }
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    videoRef.current.currentTime = pct * videoRef.current.duration;
+  };
+
+  const fmt = (s) => {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
   };
 
   if (!isOpen) return null;
@@ -168,96 +117,112 @@ export default function JourneyMovie({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       <motion.div
+        ref={containerRef}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         style={{
           position: 'fixed', inset: 0, zIndex: 99999,
-          background: '#000', cursor: showControls ? 'default' : 'none',
+          background: '#000',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: showControls ? 'default' : 'none',
         }}
         onClick={() => { if (!showControls) showCtrl(); }}
       >
-        <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0 }} />
+        {/* Video */}
+        <video
+          ref={videoRef}
+          src={VIDEO_SRC}
+          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+          onLoadedMetadata={() => { setDuration(videoRef.current.duration); setLoaded(true); }}
+          onTimeUpdate={onTimeUpdate}
+          onEnded={() => { setPlaying(false); setShowControls(true); }}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          playsInline
+          preload="auto"
+        />
 
-        {/* Initial play overlay */}
-        {!playing && fade > 0 && (
-          <div style={{
-            position: 'absolute', inset: 0, zIndex: 10,
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            background: 'rgba(0,0,0,0.85)',
-          }}>
-            <motion.button
-              animate={{ scale: [1, 1.08, 1] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              onClick={togglePlay}
-              style={{
-                width: 90, height: 90, borderRadius: '50%',
-                background: 'linear-gradient(135deg,#6366f1,#8b5cf6)',
-                border: 'none', color: '#fff', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 0 50px rgba(99,102,241,0.5)',
-              }}
-            >
-              <Play size={36} style={{ marginLeft: 4 }} />
-            </motion.button>
-            <p style={{ color: 'rgba(255,255,255,0.5)', marginTop: 20, fontSize: 14, letterSpacing: 2 }}>
-              {sceneIdx > 0 ? 'RESUME' : 'PLAY CINEMATIC'}
-            </p>
-          </div>
+        {/* Center play button (when paused) */}
+        {!playing && loaded && (
+          <motion.button
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            onClick={togglePlay}
+            style={{
+              position: 'absolute',
+              width: 80, height: 80, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              border: 'none', color: '#fff', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 50px rgba(99,102,241,0.5)',
+              zIndex: 5,
+            }}
+          >
+            <Play size={32} style={{ marginLeft: 4 }} />
+          </motion.button>
         )}
 
-        {/* Controls overlay */}
+        {/* Controls */}
         <motion.div
           animate={{ opacity: showControls ? 1 : 0 }}
           transition={{ duration: 0.3 }}
           style={{
-            position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 20,
-            background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
-            padding: '2rem 1.5rem 1rem', pointerEvents: showControls ? 'auto' : 'none',
+            position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 10,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
+            padding: '2.5rem 1.5rem 1rem',
+            pointerEvents: showControls ? 'auto' : 'none',
           }}
         >
-          {/* Timeline */}
-          <div onClick={handleTimelineClick} style={{
-            width: '100%', height: 4, borderRadius: 2,
-            background: 'rgba(255,255,255,0.15)', cursor: 'pointer', marginBottom: 12, overflow: 'hidden',
+          {/* Progress bar */}
+          <div onClick={onSeek} style={{
+            width: '100%', height: 5, borderRadius: 3,
+            background: 'rgba(255,255,255,0.15)', cursor: 'pointer',
+            marginBottom: 12, position: 'relative',
           }}>
-            <motion.div animate={{ width: `${overallProgress}%` }} transition={{ duration: 0.3 }}
-              style={{ height: '100%', borderRadius: 2, background: 'linear-gradient(to right,#6366f1,#8b5cf6)' }}
-            />
+            <div style={{
+              width: `${progress}%`, height: '100%', borderRadius: 3,
+              background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+              transition: 'width 0.1s linear',
+            }} />
+            <div style={{
+              position: 'absolute', left: `${progress}%`, top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 14, height: 14, borderRadius: '50%',
+              background: '#fff', boxShadow: '0 0 8px rgba(0,0,0,0.4)',
+              transition: 'left 0.1s linear',
+            }} />
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <button onClick={togglePlay} style={btnStyle}>
-                {playing ? <Pause size={18}/> : <Play size={18} style={{marginLeft:2}}/>}
+                {playing ? <Pause size={18} /> : <Play size={18} style={{ marginLeft: 2 }} />}
               </button>
-              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 12, fontWeight: 600, letterSpacing: 1 }}>
-                {SCENES[sceneIdx]?.id.toUpperCase()} • {sceneIdx+1}/{SCENES.length}
+              <button onClick={toggleMute} style={btnStyle}>
+                {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+              </button>
+              <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, fontWeight: 500, fontFamily: 'monospace' }}>
+                {fmt(currentTime)} / {fmt(duration)}
               </span>
             </div>
 
-            {/* Scene dots */}
-            <div style={{ display: 'flex', gap: 4 }}>
-              {SCENES.map((s,i) => (
-                <button key={s.id} onClick={() => { setSceneIdx(i); setSceneStart(SCENES.slice(0,i).reduce((a,x)=>a+x.dur,0)); startRef.current=null; }}
-                  style={{
-                    width: i===sceneIdx?16:6, height:6, borderRadius:999,
-                    background: i===sceneIdx?'#8b5cf6':'rgba(255,255,255,0.25)',
-                    border:'none', cursor:'pointer', padding:0, transition:'all 0.3s',
-                  }}
-                />
-              ))}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button onClick={toggleFs} style={btnStyle}>
+                {isFs ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+              </button>
             </div>
           </div>
         </motion.div>
 
-        {/* Close button */}
+        {/* Close */}
         <motion.button
           animate={{ opacity: showControls ? 1 : 0 }}
           transition={{ duration: 0.3 }}
           onClick={handleClose}
           style={{
-            position: 'absolute', top: 20, right: 20, zIndex: 20,
+            position: 'absolute', top: 20, right: 20, zIndex: 10,
             ...btnStyle, pointerEvents: showControls ? 'auto' : 'none',
           }}
         >
@@ -271,8 +236,8 @@ export default function JourneyMovie({ isOpen, onClose }) {
 const btnStyle = {
   background: 'rgba(255,255,255,0.1)',
   border: '1px solid rgba(255,255,255,0.15)',
-  borderRadius: 8, color: '#fff',
-  width: 36, height: 36,
+  borderRadius: 10, color: '#fff',
+  width: 38, height: 38,
   display: 'flex', alignItems: 'center', justifyContent: 'center',
-  cursor: 'pointer',
+  cursor: 'pointer', transition: 'background 0.2s',
 };
