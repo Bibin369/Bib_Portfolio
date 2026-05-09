@@ -65,8 +65,8 @@ export default function About() {
              <p style={{ color: 'var(--text-secondary)' }}>Projects Completed</p>
            </div>
            <div className="glass-panel" style={{ padding: '2rem', textAlign: 'center', gridColumn: 'span 2' }}>
-             <h4 style={{ fontSize: '3rem', fontWeight: 800, className: 'gradient-text' }}>100%</h4>
-             <p style={{ color: 'var(--text-secondary)' }}>Client Satisfaction</p>
+             <h4 style={{ fontSize: '3rem', fontWeight: 800, className: 'gradient-text' }}>4+</h4>
+             <p style={{ color: 'var(--text-secondary)' }}>Domains Explored</p>
            </div>
         </motion.div>
 
